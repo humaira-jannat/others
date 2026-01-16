@@ -79,35 +79,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         typeWriter();
     }
-
-    // ==========================
-    // Contact Form Submission to Google Sheet
-    // ==========================
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value
-            };
-
-            fetch("https://script.google.com/macros/s/AKfycbyOZ6BeaDrwRKJh-5lptC7qD-NEX6i5nAl752g-SBpNGfuRCRSHf_1Hr7uk7J9BpztutQ/exec", {
-                method: "POST",
-                body: JSON.stringify(formData)
-            })
-            .then(res => res.json())
-            .then(data => {
-                alert("Message sent successfully!");
-                contactForm.reset();
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Error sending message. Try again.");
-            });
-        });
-    }
 });
-
