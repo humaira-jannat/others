@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ==========================
-    // Smooth scrolling for nav links
-    // ==========================
+    // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -12,9 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ==========================
-    // Header shadow effect on scroll
-    // ==========================
+    // Header shadow on scroll
     const header = document.querySelector('header');
     window.addEventListener('scroll', () => {
         header.style.boxShadow = window.pageYOffset > 0 
@@ -22,9 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             : '0 2px 20px rgba(0,0,0,0.1)';
     });
 
-    // ==========================
-    // Animate sections on scroll
-    // ==========================
+    // Section animation on scroll
     const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -42,9 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
-    // ==========================
     // Active nav link on scroll
-    // ==========================
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
     window.addEventListener('scroll', () => {
@@ -62,9 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ==========================
     // Hero typing effect
-    // ==========================
     const heroTitle = document.querySelector('.hero-text h1');
     if (heroTitle) {
         const text = heroTitle.textContent;
