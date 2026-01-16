@@ -2,53 +2,40 @@
 // Smooth scrolling for navigation links
 // ==========================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+    anchor.addEventListener('click', function(e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
 });
 
 // ==========================
-// Header scroll effect
+// Header shadow effect on scroll
 // ==========================
-let lastScroll = 0;
 const header = document.querySelector('header');
-
 window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll <= 0) {
-        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
-    } else {
-        header.style.boxShadow = '0 2px 30px rgba(0,0,0,0.15)';
-    }
-    
-    lastScroll = currentScroll;
+    header.style.boxShadow = window.pageYOffset > 0 
+        ? '0 2px 30px rgba(0,0,0,0.15)' 
+        : '0 2px 20px rgba(0,0,0,0.1)';
 });
 
 // ==========================
 // Contact form submission
 // ==========================
 const contactForm = document.querySelector('.contact-form');
-
 contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Get form values
     const data = {
-        name: contactForm.querySelector('input[placeholder="First Name"]').value + " " + contactForm.querySelector('input[placeholder="Last Name"]').value,
+        name: contactForm.querySelector('input[placeholder="First Name"]').value + " " +
+              contactForm.querySelector('input[placeholder="Last Name"]').value,
         email: contactForm.querySelector('input[type="email"]').value,
         message: contactForm.querySelector('textarea').value
     };
 
-    // Send data to Google Sheets
-    fetch("https://script.google.com/macros/s/AKfycbw6EbS0ZKq9um1uLHfK8vXB2H4n1qrN9TVGc-acB0hPzpQZluosWbTPQKhoYfRmY1qa/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbyOZ6BeaDrwRKJh-5lptC7qD-NEX6i5nAl752g-SBpNGfuRCRSHf_1Hr7uk7J9BpztutQ/exec", {
         method: "POST",
         body: JSON.stringify(data)
     })
@@ -63,14 +50,10 @@ contactForm.addEventListener('submit', function(e) {
 });
 
 // ==========================
-// Animate elements on scroll
+// Animate sections on scroll
 // ==========================
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
+const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
@@ -79,7 +62,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe all sections
 document.querySelectorAll('section').forEach(section => {
     section.style.opacity = '0';
     section.style.transform = 'translateY(20px)';
@@ -88,23 +70,17 @@ document.querySelectorAll('section').forEach(section => {
 });
 
 // ==========================
-// Add active class to nav links on scroll
+// Active nav link on scroll
 // ==========================
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
-
 window.addEventListener('scroll', () => {
     let current = '';
-    
     sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        if (window.pageYOffset >= sectionTop - 200) {
+        if (window.pageYOffset >= section.offsetTop - 200) {
             current = section.getAttribute('id');
         }
     });
-    
     navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href').substring(1) === current) {
@@ -129,7 +105,4 @@ function typeWriter() {
     }
 }
 
-// Start typing effect on page load
-window.addEventListener('load', () => {
-    typeWriter();
-});
+window.addEventListener('load', () => { typeWriter(); });
