@@ -23,36 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================
-    // Contact form submission
-    // ==========================
-    const contactForm = document.querySelector('.contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const data = {
-                name: contactForm.querySelector('input[placeholder="First Name"]').value + " " +
-                      contactForm.querySelector('input[placeholder="Last Name"]').value,
-                email: contactForm.querySelector('input[type="email"]').value,
-                message: contactForm.querySelector('textarea').value
-            };
-
-            fetch("https://script.google.com/macros/s/AKfycbyOZ6BeaDrwRKJh-5lptC7qD-NEX6i5nAl752g-SBpNGfuRCRSHf_1Hr7uk7J9BpztutQ/exec", {
-                method: "POST",
-                body: JSON.stringify(data)
-            })
-            .then(res => res.json())
-            .then(() => {
-                alert("Message sent successfully!");
-                contactForm.reset();
-            })
-            .catch(() => {
-                alert("Error sending message. Try again.");
-            });
-        });
-    }
-
-    // ==========================
     // Animate sections on scroll
     // ==========================
     const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
@@ -109,4 +79,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         typeWriter();
     }
+
+    // ==========================
+    // Contact Form Submission to Google Sheet
+    // ==========================
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+
+            fetch("https://script.google.com/macros/s/AKfycbyOZ6BeaDrwRKJh-5lptC7qD-NEX6i5nAl752g-SBpNGfuRCRSHf_1Hr7uk7J9BpztutQ/exec", {
+                method: "POST",
+                body: JSON.stringify(formData)
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert("Message sent successfully!");
+                contactForm.reset();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error sending message. Try again.");
+            });
+        });
+    }
 });
+
